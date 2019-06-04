@@ -11,7 +11,7 @@ nginx/logs/
 # ignora tudo no diretório "nginx/sites", exceto:
 nginx/sites/*
 !nginx/sites/default.conf
-!nginx/sites/api.dev.conf
+!nginx/sites/myapp.dev.conf
 
 # ignora todos os arquivos iniciados com .
 .*
