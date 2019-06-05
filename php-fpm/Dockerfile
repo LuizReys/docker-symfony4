@@ -8,9 +8,29 @@ RUN apt-get update
 
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --force-yes libssl-dev curl  libcurl4-gnutls-dev libxml2-dev libicu-dev libmcrypt4 libmemcached11 openssl
 
+RUN apt-get install -y --no-install-recommends \
+    curl \
+    openssl \
+	vim
+
 #####################################
 # Libs:
 #####################################
+RUN apt-get -qq update && apt-get -qq dist-upgrade && apt-get install -qq -y --no-install-recommends \
+    git \
+    openssh-client \
+    ca-certificates \
+    curl \
+    p7zip \
+    build-essential \
+    pkg-config \
+    libgl1-mesa-dev \
+    libsm6 \
+    libice6 \
+    libxext6 \
+    libxrender1 \
+    libfontconfig1
+
 RUN docker-php-ext-install bcmath
 RUN apt-get install -y libbz2-dev
 RUN docker-php-ext-install bz2
@@ -18,6 +38,9 @@ RUN docker-php-ext-install mbstring
 RUN apt-get install -y libpq-dev
 RUN apt-get install -y libicu-dev
 RUN docker-php-ext-install intl
+RUN apt-get install -y libsodium-dev 
+RUN docker-php-ext-install sodium
+RUN apt-get -qq clean
 
 #####################################
 # Composer:
