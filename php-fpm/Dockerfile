@@ -1,46 +1,23 @@
-FROM php:7.3.6-fpm
+FROM php:7.2-fpm
  
 MAINTAINER Luiz Reis <luiz.reis@pravaler.com.br>
 
-RUN echo 'deb http://httpredir.debian.org/debian jessie contrib' >> /etc/apt/sources.list
-
+RUN apt-get clean
 RUN apt-get update
-
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --force-yes libssl-dev curl  libcurl4-gnutls-dev libxml2-dev libicu-dev libmcrypt4 libmemcached11 openssl
-
-RUN apt-get install -y --no-install-recommends \
-    curl \
-    openssl \
-	vim
 
 #####################################
 # Libs:
 #####################################
-RUN apt-get -qq update && apt-get -qq dist-upgrade && apt-get install -qq -y --no-install-recommends \
-    git \
-    openssh-client \
-    ca-certificates \
-    curl \
-    p7zip \
-    build-essential \
-    pkg-config \
-    libgl1-mesa-dev \
-    libsm6 \
-    libice6 \
-    libxext6 \
-    libxrender1 \
-    libfontconfig1
+RUN echo 'deb http://httpredir.debian.org/debian jessie contrib' >> /etc/apt/sources.list
 
-RUN docker-php-ext-install bcmath
-RUN apt-get install -y libbz2-dev
-RUN docker-php-ext-install bz2
-RUN docker-php-ext-install mbstring
-RUN apt-get install -y libpq-dev
-RUN apt-get install -y libicu-dev
-RUN docker-php-ext-install intl
-RUN apt-get install -y libsodium-dev 
-RUN docker-php-ext-install sodium
-RUN apt-get -qq clean
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --force-yes libssl-dev curl  libcurl4-gnutls-dev libxml2-dev libicu-dev libmcrypt4 libmemcached11 openssl
+
+RUN apt-get install -y zlib1g-dev libpq-dev git curl vim libicu-dev libxml2-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
+&& docker-php-ext-install zip xml
 
 #####################################
 # Composer:
