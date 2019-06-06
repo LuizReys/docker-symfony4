@@ -30,7 +30,7 @@ Execute os contêineres:
 	$ docker-compose up -d
 
 ## Ajuste o hosts
-Adicione os domínios no arquivo de hosts:
+Adicione o domínio no arquivo de hosts:
 
 	$ vim /etc/hosts
 
